@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#21182f" />
+  <meta name="description" content="给你的小小宇宙 · 一份会转起来的生日祝福" />
+  <title>给你的小小宇宙</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="app" aria-live="polite">
+    <div class="stars" aria-hidden="true"></div><div class="nebula" aria-hidden="true"></div>
+
+    <section class="scene scene--intro active" id="intro">
+      <p class="eyebrow">FOR YOUR BIRTHDAY</p>
+      <h1>今天，宇宙为你<br><em>亮一整晚</em></h1>
+      <p class="hint">轻触星光，开始这份小小惊喜</p>
+      <button class="start" id="startBtn">打开礼物 <span>✦</span></button>
+    </section>
+
+    <section class="scene scene--cake" id="cake" hidden>
+      <p class="eyebrow">MAKE A WISH</p>
+      <h2>先许一个愿吧</h2>
+      <p class="sub">点击烛火，或对着手机轻轻吹一吹</p>
+      <div class="cake-wrap" id="cakeTap" role="button" tabindex="0" aria-label="吹灭蜡烛">
+        <div class="halo"></div>
+        <div class="flame" id="flame"><i></i></div>
+        <div class="wick"></div><div class="candle"></div>
+        <div class="cake-top"></div><div class="cake-body"><span></span><span></span><span></span></div>
+        <div class="plate"></div>
+      </div>
+      <button class="mic" id="micBtn">开启吹气感应</button>
+      <p class="tap-note" id="cakeNote">不方便开启麦克风？直接点蜡烛也可以。</p>
+    </section>
+
+    <section class="scene scene--carousel" id="carousel" hidden>
+      <div class="carousel-sky" aria-hidden="true"></div>
+      <header class="carousel-head">
+        <div class="ribbon">
+          <span class="ribbon-eyebrow">OUR LITTLE MOMENTS</span>
+          <strong>回忆都挂在星光里</strong>
+          <i class="sparkle"></i><i class="sparkle"></i><i class="sparkle"></i><i class="sparkle"></i>
+        </div>
+        <p class="sub">左右拖动，让回忆慢慢转起来 · 点开照片看看</p>
+      </header>
+
+      <div class="lamp" id="lamp" role="group" aria-label="可拖动的旋转木马相片灯">
+        <div class="lamp-halo" aria-hidden="true"></div>
+        <div class="canopy" aria-hidden="true">
+          <div class="finial"></div>
+          <div class="dome"></div>
+          <div class="dome-shine"></div>
+          <div class="scallop" id="scallop"></div>
+          <div class="bulbs" id="bulbs"></div>
+        </div>
+        <div class="column" aria-hidden="true"></div>
+
+        <div class="ring" id="ring">
+          <figure class="photo" style="--i:0" data-caption="第一张合照" tabindex="0" role="button" aria-label="放大查看：第一张合照">
+            <div class="frame-face"><img src="assets/photo-1.svg" alt="第一张合照"><figcaption>第一张合照</figcaption></div>
+            <div class="frame-back"></div>
+          </figure>
+          <figure class="photo" style="--i:1" data-caption="一起吹过的风" tabindex="0" role="button" aria-label="放大查看：一起吹过的风">
+            <div class="frame-face"><img src="assets/photo-2.svg" alt="一起吹过的风"><figcaption>一起吹过的风</figcaption></div>
+            <div class="frame-back"></div>
+          </figure>
+          <figure class="photo" style="--i:2" data-caption="没说完的话" tabindex="0" role="button" aria-label="放大查看：没说完的话">
+            <div class="frame-face"><img src="assets/photo-3.svg" alt="没说完的话"><figcaption>没说完的话</figcaption></div>
+            <div class="frame-back"></div>
+          </figure>
+          <figure class="photo" style="--i:3" data-caption="最平常的一天" tabindex="0" role="button" aria-label="放大查看：最平常的一天">
+            <div class="frame-face"><img src="assets/photo-4.svg" alt="最平常的一天"><figcaption>最平常的一天</figcaption></div>
+            <div class="frame-back"></div>
+          </figure>
+          <figure class="photo" style="--i:4" data-caption="下次还要见面" tabindex="0" role="button" aria-label="放大查看：下次还要见面">
+            <div class="frame-face"><img src="assets/photo-5.svg" alt="下次还要见面"><figcaption>下次还要见面</figcaption></div>
+            <div class="frame-back"></div>
+          </figure>
+          <figure class="photo" style="--i:5" data-caption="永远珍藏" tabindex="0" role="button" aria-label="放大查看：永远珍藏">
+            <div class="frame-face"><img src="assets/photo-6.svg" alt="永远珍藏"><figcaption>永远珍藏</figcaption></div>
+            <div class="frame-back"></div>
+          </figure>
+        </div>
+
+        <div class="base" aria-hidden="true">
+          <div class="tier tier-top"></div><div class="tier tier-mid"></div><div class="tier tier-bot"></div>
+          <div class="base-ornament"></div>
+        </div>
+      </div>
+
+      <button class="continue" id="letterBtn">收下最后一封信 <span>→</span></button>
+    </section>
+
+    <div class="viewer" id="viewer" hidden>
+      <button class="viewer-close" id="viewerClose" aria-label="关闭照片">×</button>
+      <figure class="viewer-card">
+        <img id="viewerImg" src="" alt="" />
+        <figcaption id="viewerCap"></figcaption>
+      </figure>
+    </div>
+
+    <section class="scene scene--letter" id="letter" hidden>
+      <div class="letter-card">
+        <div class="letter-sparkle">✦</div>
+        <p class="eyebrow">A NOTE FOR YOU</p>
+        <h2>生日快乐呀，<br><em>我的好朋友</em></h2>
+        <p>愿你被爱、被理解，也永远保留对生活的好奇。愿每一个普通日子里，都有不期而遇的小确幸。</p>
+        <p>新的一岁，请继续做那个闪闪发光、无可替代的你。我们一起把快乐存档，慢慢把日子过成星河。</p>
+        <p class="signature">永远站在你这边的人<br>2026.11.15</p>
+      </div>
+      <button class="replay" id="replayBtn">再看一次星光</button>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

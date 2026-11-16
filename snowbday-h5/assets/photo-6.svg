@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 380" width="300" height="380">
+<defs><linearGradient id="g6" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#412a5c"/><stop offset="1" stop-color="#b06da8"/></linearGradient></defs>
+<rect width="300" height="380" fill="url(#g6)"/>
+<circle cx="150" cy="168" r="118" fill="#ffeccd" opacity=".10"/>
+<rect x="12" y="12" width="276" height="356" rx="4" fill="none" stroke="#ffeccd" stroke-width="1.5" opacity=".55"/>
+<path d="M150 58l11 30 32 11-32 11-11 30-11-30-32-11 32-11z" fill="#ffeccd"/><circle cx="92" cy="106" r="5" fill="#fff"/><circle cx="222" cy="132" r="4" fill="#fff"/><circle cx="112" cy="216" r="4" fill="#fff"/><circle cx="206" cy="238" r="6" fill="#ffeccd"/><path d="M60 286c60-36 120 36 180-6" stroke="#ffeccd" stroke-width="3" fill="none" opacity=".8"/>
+<text x="150" y="338" text-anchor="middle" font-family="Songti SC,serif" font-size="17" letter-spacing="2" fill="#ffeccd">永远珍藏</text>
+</svg>

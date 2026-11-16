@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 380" width="300" height="380">
+<defs><linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#3d3a6e"/><stop offset="1" stop-color="#9a7ac0"/></linearGradient></defs>
+<rect width="300" height="380" fill="url(#g4)"/>
+<circle cx="150" cy="168" r="118" fill="#ffe1bd" opacity=".10"/>
+<rect x="12" y="12" width="276" height="356" rx="4" fill="none" stroke="#ffe1bd" stroke-width="1.5" opacity=".55"/>
+<circle cx="150" cy="150" r="54" fill="#ffe1bd" opacity=".9"/><path d="M150 74v-22M150 248v22M74 150H52M248 150h22M96 96L82 82M218 218l-14-14M204 96l14-14M82 218l14-14" stroke="#ffe1bd" stroke-width="6" stroke-linecap="round"/><path d="M40 292l66-62 44 40 52-58 58 80z" fill="#ffe1bd" opacity=".55"/>
+<text x="150" y="338" text-anchor="middle" font-family="Songti SC,serif" font-size="17" letter-spacing="2" fill="#ffe1bd">最平常的一天</text>
+</svg>
