@@ -1,0 +1,164 @@
+:root{--ink:#fff8ff;--pink:#ffb4df;--violet:#8b74ff;--bg:#050509}
+*{box-sizing:border-box}
+html,body,#app{margin:0;min-height:100%;font-family:"Microsoft YaHei",system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+body{overflow:hidden;background:#050509}
+
+/* ===== 3D camera stage: scenes fly in/out like a dolly shot ===== */
+#app{position:fixed;inset:0;perspective:1200px;perspective-origin:50% 45%;transform-style:preserve-3d}
+.scene{
+  position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:18px;
+  padding:clamp(28px,7vh,70px) 24px;text-align:center;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 50%,rgba(20,12,40,.55),rgba(5,5,9,.92) 78%);
+  transform-origin:50% 50%;transform-style:preserve-3d;backface-visibility:hidden;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transform:translate3d(0,0,-420px) scale(.86);
+  transition:transform 1s cubic-bezier(.22,.8,.2,1),opacity .72s ease,visibility 1s;
+  will-change:transform,opacity;
+}
+.scene.active{opacity:1;visibility:visible;pointer-events:auto;transform:translate3d(0,0,0) scale(1);z-index:3}
+/* outgoing: pushes back and shrinks; incoming starts further back and rises */
+.scene.prev{opacity:0;visibility:visible;pointer-events:none;transform:translate3d(0,0,320px) scale(1.12);z-index:2}
+
+/* fine diamond dust — three parallax layers of tiny white stars */
+.stars,.stars:before,.stars:after{
+  position:fixed;inset:0;content:"";pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(circle at 8% 12%,#fff 0 1px,transparent 1.6px),
+    radial-gradient(circle at 27% 33%,#fff 0 .8px,transparent 1.4px),
+    radial-gradient(circle at 44% 18%,#eaf1ff 0 1px,transparent 1.6px),
+    radial-gradient(circle at 63% 41%,#fff 0 .7px,transparent 1.3px),
+    radial-gradient(circle at 82% 9%,#fff 0 1px,transparent 1.6px),
+    radial-gradient(circle at 94% 55%,#dfe9ff 0 .8px,transparent 1.4px),
+    radial-gradient(circle at 15% 72%,#fff 0 .9px,transparent 1.5px),
+    radial-gradient(circle at 52% 84%,#fff 0 1px,transparent 1.6px),
+    radial-gradient(circle at 76% 76%,#e6eeff 0 .8px,transparent 1.4px),
+    radial-gradient(circle at 35% 57%,#fff 0 .7px,transparent 1.3px);
+  background-size:260px 300px;opacity:.9;animation:twinkle 5s alternate infinite;
+}
+.stars:before{transform:rotate(18deg) scale(1.3);opacity:.5;animation-delay:-2s}
+.stars:after{transform:scale(.7) translate(30px,60px);opacity:.35;animation-delay:-3.5s}
+.nebula{position:fixed;inset:-30%;z-index:0;background:radial-gradient(ellipse at 50% 92%,rgba(120,80,180,.20),transparent 34%),radial-gradient(ellipse at 20% 50%,rgba(70,90,180,.16),transparent 30%),radial-gradient(ellipse at 78% 39%,rgba(150,70,170,.14),transparent 32%);filter:blur(30px);opacity:.7;animation:drift 14s ease-in-out infinite alternate}
+
+/* fireworks canvas is a global backdrop shared by the fireworks act and the letter */
+.fw-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0;transition:opacity .8s ease}
+.fw-canvas.on{opacity:1}
+.scene>*{position:relative;z-index:2}
+
+/* ===== shared typography ===== */
+.eyebrow{margin:0;letter-spacing:.2em;font-size:11px;color:#fbc8ec}
+h1,h2{margin:0;line-height:1.15;font-weight:500;text-shadow:0 3px 24px #d55ebb}
+h2{font-size:clamp(27px,7vw,48px)}
+em{font-family:Georgia,serif;font-weight:normal;color:#ffd2ed}
+.hint,.sub,.tap-note,.open-hint{margin:0;color:#f2dff4;font-size:14px;line-height:1.7}
+.start,.continue,.replay,.mic{border:1px solid rgba(255,255,255,.45);border-radius:999px;background:linear-gradient(120deg,#ffb4de,#a993ff);color:#fff;padding:14px 22px;font:inherit;box-shadow:0 8px 25px #bc5acb66;cursor:pointer}
+
+/* ===== Act 1 — candle ===== */
+.cake-wrap{width:min(76vw,350px);height:310px;position:relative;margin-top:2vh;cursor:pointer}
+.halo{width:110px;height:110px;position:absolute;left:50%;top:6px;transform:translateX(-50%);border-radius:50%;background:#ffbfad;filter:blur(32px);opacity:.55}
+.flame{width:30px;height:55px;position:absolute;left:calc(50% - 15px);top:10px;border-radius:55% 45% 55% 45%;transform:rotate(45deg);background:linear-gradient(135deg,#fff8c5,#ffb24c 52%,#e958a3);box-shadow:0 0 28px 11px #ffc165;animation:flicker .9s ease-in-out infinite alternate}
+.flame i{display:block;width:12px;height:25px;background:#fff8d0;border-radius:55% 45% 55% 45%;margin:13px}
+.wick{position:absolute;width:4px;height:18px;background:#26122d;left:calc(50% - 2px);top:58px}
+.candle{position:absolute;width:30px;height:100px;left:calc(50% - 15px);top:72px;border-radius:8px 8px 3px 3px;background:linear-gradient(90deg,#dc77b7,#ffd6ee 48%,#bb5fa8)}
+.cake-top{position:absolute;width:125px;height:34px;left:calc(50% - 62px);top:155px;border-radius:50%;background:#ffd0e8;box-shadow:inset 0 -8px #df83b7}
+.cake-body{position:absolute;width:200px;height:75px;left:calc(50% - 100px);top:173px;border-radius:8px 8px 30px 30px;background:linear-gradient(90deg,#a858b2,#eb8fc3 52%,#8e56bd);box-shadow:inset 0 9px #ffd3ea}
+.cake-body span{position:relative;display:inline-block;width:18px;height:28px;margin:0 16px;background:#ffd2e8;border-radius:0 0 14px 14px}
+.plate{position:absolute;width:250px;height:30px;left:calc(50% - 125px);top:242px;border-radius:50%;background:#c6b4ff;box-shadow:0 9px 30px #b765ce99}
+.mic{background:#ffffff16;padding:9px 15px;font-size:13px}
+.blown .flame{animation:blow .8s forwards}
+.blown .halo{opacity:.15}
+
+/* ===== Act 2 — carousel lamp iframe fills the screen ===== */
+.scene--carousel{padding:0!important;background:#03030a!important;display:grid!important;overflow:hidden!important}
+.scene--carousel .lamp-frame{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1}
+.scene--carousel .lamp-next{position:absolute;right:12px;top:max(12px,env(safe-area-inset-top));z-index:5;background:linear-gradient(120deg,#f7ddb2,#e9a9c6);color:#4a2b44;border-color:#fff2dfaa;font-weight:500;padding:10px 16px;font-size:12px}
+
+/* ===== Act 3 — fireworks ===== */
+.scene--fireworks{display:grid!important;background:transparent!important;padding:0}
+.fw-ui{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:max(64px,9svh) 22px max(28px,env(safe-area-inset-bottom));pointer-events:none}
+.fw-copy{display:grid;gap:10px;justify-items:center;text-align:center}
+.fw-copy h2{margin:0;font-size:clamp(29px,7.5vw,50px);line-height:1.25;color:#fff3fb;text-shadow:0 2px 16px #c05fb0,0 0 30px #f0a6d966}
+.fw-copy h2 em{color:#ffe3a6;text-shadow:0 2px 14px #c88a3d,0 0 26px #ffcf8066}
+.fw-copy .sub{margin:0;color:#d9cbe6}
+.fw-actions{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;pointer-events:auto}
+.fw-more{border:1px solid #ffffff66;border-radius:999px;background:#ffffff14;color:#ffe9f7;padding:10px 20px;font:inherit;font-size:13px;cursor:pointer;backdrop-filter:blur(8px)}
+.scene--fireworks .fw-next{margin:0;background:linear-gradient(120deg,#ffd98a,#ff9ec4);color:#4a2b44;border-color:#fff2dfaa;box-shadow:0 10px 30px #0008;padding:13px 26px;font-size:14px}
+
+/* ===== Act 4 — the letter: pink envelope, gold wax seal, silky paper reveal ===== */
+.scene--letter{background:radial-gradient(ellipse at 50% 40%,rgba(60,30,70,.35),rgba(5,5,9,.86) 78%)!important;gap:14px}
+.letter-stage{position:relative;width:min(88vw,380px);height:min(66svh,470px);display:grid;place-items:center;perspective:1100px}
+
+/* the letter paper sits behind the envelope, then slides up when opened */
+.paper{
+  position:absolute;z-index:1;width:min(80vw,330px);max-height:min(78svh,560px);
+  transform:translateY(46px) scale(.9);opacity:0;pointer-events:none;
+  transition:transform 1.05s cubic-bezier(.18,.85,.25,1) .28s,opacity .6s ease .32s;
+}
+.paper-inner{
+  overflow:auto;max-height:min(78svh,560px);padding:24px 26px 26px;text-align:center;color:#5d4138;
+  background:linear-gradient(155deg,#fffaf0 0%,#fdf3e2 55%,#f6e8d2 100%);
+  border-radius:3px;border:1px solid #e8d9c0;
+  box-shadow:0 22px 60px #000b,inset 0 0 40px #e7cba644;
+  font-family:"Songti SC","STSong",Georgia,serif;
+}
+.paper-inner::-webkit-scrollbar{width:0}
+.paper-top{display:flex;justify-content:space-between;font:12px/1.4 Georgia,serif;letter-spacing:.08em;color:#8a6f66}
+.paper-rule{height:1px;background:linear-gradient(90deg,transparent,#b99a8c,transparent);margin:12px 0}
+.paper-cat{display:grid;place-items:center;margin:6px 0 2px;opacity:.9}
+.paper-side{position:absolute;top:42%;writing-mode:vertical-rl;font:10px/1 Georgia,serif;letter-spacing:.34em;color:#a98d82}
+.paper-side.left{left:10px}.paper-side.right{right:10px}
+.paper-h{margin:6px 0 14px;font-size:clamp(21px,5.6vw,30px);line-height:1.4;color:#6e4b46;text-shadow:none;font-weight:500}
+.paper-h em{color:#a8695f;font-family:"Songti SC",Georgia,serif}
+.paper-lines p{margin:0 0 12px;font-size:clamp(13px,3.6vw,15px);line-height:1.9;color:#5d4138;text-align:justify}
+.paper-sign{margin-top:16px;text-align:right;font-size:clamp(12px,3.2vw,14px);line-height:1.9;color:#7a5a51}
+.paper-star{margin-top:10px;letter-spacing:.5em;color:#c69a6a;font-size:12px}
+
+/* envelope */
+.envelope{position:absolute;z-index:2;width:min(80vw,330px);height:min(52svh,230px);cursor:pointer;
+  transform-origin:50% 100%;transition:transform 1s cubic-bezier(.2,.8,.2,1),opacity .7s ease;
+  filter:drop-shadow(0 20px 34px #000a);
+}
+.envelope:focus-visible,.paper:focus-visible{outline:2px solid #ffd98a;outline-offset:4px}
+.env-back{position:absolute;inset:0;border-radius:5px;background:linear-gradient(150deg,#f8dfe1,#eec3cb 60%,#e2b0bd);border:1px solid #fdecef}
+.env-pocket{position:absolute;inset:0;border-radius:5px;overflow:hidden}
+.env-pocket:before,.env-pocket:after{content:"";position:absolute;inset:0;background:linear-gradient(150deg,#f9e3e5,#efc7cf)}
+.env-pocket:before{clip-path:polygon(0 100%,50% 34%,100% 100%)}
+.env-pocket:after{clip-path:polygon(0 0,50% 62%,100% 0);background:linear-gradient(150deg,#f3d0d6,#e7b3bf);opacity:.9}
+.env-flap{position:absolute;left:0;right:0;top:0;height:62%;transform-origin:50% 0;
+  background:linear-gradient(160deg,#fbe8ea,#efc2cb 70%,#e5adb9);
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  border-radius:5px 5px 0 0;transition:transform .95s cubic-bezier(.2,.8,.2,1);z-index:3}
+.wax{position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);z-index:4;
+  width:58px;height:58px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 34% 30%,#f6d99a,#c9963f 55%,#8c5f22);
+  box-shadow:0 4px 12px #0007,inset 0 0 0 3px #f0cf8a55,inset 0 0 12px #7a4d18aa;
+  color:#7a4d18;font-size:22px;transition:transform .6s ease,opacity .5s ease}
+.wax span{filter:drop-shadow(0 1px 0 #f6d99a)}
+.env-name{position:absolute;left:0;right:0;top:16%;z-index:4;text-align:center;
+  font-family:"Segoe Script","Brush Script MT",cursive;font-size:clamp(20px,6vw,30px);color:#9a6b62;
+  text-shadow:0 1px 0 #fff8;font-style:italic}
+.env-foot{position:absolute;left:0;right:0;bottom:7%;z-index:4;text-align:center;
+  font-family:"Segoe Script","Brush Script MT",cursive;font-size:clamp(10px,2.8vw,14px);color:#a87970;font-style:italic}
+.open-hint{transition:opacity .5s ease;color:#ffe6bf}
+.replay{margin-top:4px;background:#ffffff16;box-shadow:none;font-size:13px;padding:10px 18px;opacity:0;pointer-events:none;transition:opacity .5s ease}
+
+/* opened state */
+.letter-stage.opened .wax{transform:translate(-50%,-50%) scale(.4) rotate(120deg);opacity:0}
+.letter-stage.opened .env-flap{transform:rotateX(180deg)}
+.letter-stage.opened .envelope{transform:translateY(70px) scale(.94);opacity:.35;pointer-events:none}
+.letter-stage.opened .paper{transform:translateY(-70px) scale(1);opacity:1;pointer-events:auto;z-index:5}
+.letter-stage.opened .open-hint{opacity:0}
+.letter-stage.opened ~ .replay,.scene--letter.revealed .replay{opacity:1;pointer-events:auto}
+
+/* keyframes */
+@keyframes twinkle{to{opacity:.4}}
+@keyframes drift{to{transform:translate(4%,-3%) rotate(8deg)}}
+@keyframes flicker{to{transform:rotate(41deg) scale(.86,1.08)}}
+@keyframes blow{to{opacity:0;transform:translate(32px,-18px) rotate(80deg) scale(.2)}}
+
+@media (max-height:700px){
+  .cake-wrap{height:260px;transform:scale(.85);margin:-8px}
+  .scene{gap:10px;padding-top:20px}
+  .letter-stage{height:min(60svh,400px)}
+  .wax{width:48px;height:48px}
+}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}

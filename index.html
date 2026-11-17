@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN" data-page-node-id="aiqiCCXcPTGZSY0GjTyRyi">
+<head data-page-node-id="A2DbwJje3jxGlUMI9Mn5uZ">
+  <meta charset="utf-8" data-page-node-id="3QFMz2VGVOdTTLp9hGFfKb" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" data-page-node-id="FrTIofxHiuAN2BhiFXcNP2" />
+  <meta name="theme-color" content="#050509" data-page-node-id="WwXYn9XEZx4onV9C0xXKvH" />
+  <meta name="description" content="给你的小小宇宙 · 一份会转起来的生日祝福" data-page-node-id="FUzobfM2cM7imnELMb8aK6" />
+  <title>给你的小小宇宙</title>
+  <link rel="stylesheet" href="style.css" data-page-node-id="fxDe3FAZCw1gEHUIUOztmV" />
+</head>
+<body data-page-node-id="m0YHoAzM8cBfZwamxCUA9V">
+  <div class="stars" aria-hidden="true" data-page-node-id="AM5LbZQ0cHhMgb6k0TKBp9"></div>
+  <div class="nebula" aria-hidden="true" data-page-node-id="timBamp6w11Lopl07PcFoV"></div>
+  <canvas id="fwCanvas" class="fw-canvas" aria-hidden="true" data-page-node-id="8XLyrZ9GQsy7FBJQZsWfDV"></canvas>
+
+  <main id="app" data-page-node-id="lTq3WFhxDwK03v1hUq3cdd">
+    <!-- 第一幕：吹蜡烛 -->
+    <section class="scene scene--cake active" id="cake" data-page-node-id="FRzDUzMir3keKSwxRa1X7d">
+      <p class="eyebrow" data-t="cake.eyebrow" data-page-node-id="0Gzvq4OnOa8y43bkBGudbD">MAKE A WISH</p>
+      <h2 data-t="cake.title" data-page-node-id="HnLNJBz3BNL5Mnkzbirqbh">先许一个愿吧</h2>
+      <p class="sub" data-t="cake.sub" data-page-node-id="uLlCeibQwykNHkV2xKYjYl">点击烛火，或对着手机轻轻吹一吹</p>
+      <div class="cake-wrap" id="cakeTap" role="button" tabindex="0" aria-label="吹灭蜡烛" data-page-node-id="TrTDbaBM4Jt1bwJXC2hUNK">
+        <div class="halo" data-page-node-id="LtDh2uOCH29cjr9CWZlZ0V"></div>
+        <div class="flame" id="flame" data-page-node-id="JhABkk9Ze6u045m7Vyxec0"><i data-page-node-id="28ZeWL0tx8hQVNLl5lhLv9"></i></div>
+        <div class="wick" data-page-node-id="Id62hp5qTVAm51tY7tpWJW"></div><div class="candle" data-page-node-id="POH7RCqPl7wd8b6d9wxU9o"></div>
+        <div class="cake-top" data-page-node-id="V8kvk5E8P1ms1LWoIFbLHD"></div><div class="cake-body" data-page-node-id="h3C0mpfLtBd8ivhI67oT5b"><span data-page-node-id="J6jcYNzplCPx1Fk2UgQDdV"></span><span data-page-node-id="Mea0rf4We1IFT3r0Ag2Mdn"></span><span data-page-node-id="qwC63XrLm4AHW1YBEuDQ5K"></span></div>
+        <div class="plate" data-page-node-id="DsJ1PC1fcLUmFTa36F6Smy"></div>
+      </div>
+      <button class="mic" id="micBtn" data-t="cake.mic" data-page-node-id="JxQNvN6y6DaHEvkLgcNZMR">开启吹气感应</button>
+      <p class="tap-note" id="cakeNote" data-t="cake.note" data-page-node-id="DM7Ok688wRtJHYF2QyplYl">不方便开启麦克风？直接点蜡烛也可以。</p>
+    </section>
+
+    <!-- 第二幕：旋转木马（原版 Carousel Lamp，iframe） -->
+    <section class="scene scene--carousel" id="carousel" data-page-node-id="9cQxIX0Dyw6EbS9Mw0XBjU">
+      <iframe class="lamp-frame" src="carousel.html" title="Carousel Lamp 原版旋转木马相片灯（作者 咕噜蛋Daria）" allow="autoplay" loading="lazy" data-page-node-id="R62lBp4kgp8BoQLg70kRDX"></iframe>
+      <button class="continue lamp-next" id="letterBtn" type="button" data-t="carousel.next" data-page-node-id="pNfveeUdONodXoSbP7gmc2">看一场花火 →</button>
+    </section>
+
+    <!-- 第三幕：花火大会 -->
+    <section class="scene scene--fireworks" id="fireworks" data-page-node-id="HlxgHGOpnStqCuRl78S38C">
+      <div class="fw-ui" data-page-node-id="RjeHdYfSQKybAlqO9EVKwv">
+        <div class="fw-copy" data-page-node-id="HRtbP3IBhmZPp4qE67kgo7">
+          <p class="eyebrow" data-t="fw.eyebrow" data-page-node-id="Muf3oh2ta3qLF4tLC6sKq5">A LITTLE FIREWORKS SHOW</p>
+          <h2 data-page-node-id="ZMT8LpOC9vl5MzX4RZ76XD"><span data-t="fw.title" data-page-node-id="w9pVSCE5JEgRbtSxtmph3r">这场花火，</span><br data-page-node-id="FXGq1CuXiM0c0hUtxh5AlN"><em data-t="fw.titleEm" data-page-node-id="AxvxRg7nG7OSNjv27W2OMD">只为你绽放</em></h2>
+          <p class="sub" data-t="fw.sub" data-page-node-id="FHteF7eSsrDgKrozoSwLs3">轻点夜空，再放一束</p>
+        </div>
+        <div class="fw-actions" data-page-node-id="HdgcbIbsmEqkIIIe1GGVFJ">
+          <button class="fw-more" id="fwMoreBtn" type="button" data-t="fw.more" data-page-node-id="p4GJkbymp5Lmo4LaTxKDAF">✦ 再放一束烟花</button>
+          <button class="continue fw-next" id="fwNextBtn" type="button" data-t="fw.next" data-page-node-id="zW270AlEUQ0l6rttE5FOHT">收下这封信 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 第四幕：祝福信（粉色信封 · 金色蜡封 · 丝滑展开；背景延续黑星空 + 烟花） -->
+    <section class="scene scene--letter" id="letter" data-page-node-id="zB36feQkW60PBqg7Dr58b1">
+      <div class="letter-stage" id="letterStage" data-page-node-id="qd8fAQWDCYNiBTk8HbURXK">
+        <div class="paper" id="paper" data-page-node-id="kQwU92Vjfqc749RLUyeQxh">
+          <div class="paper-inner" data-page-node-id="7h6mupHkf1hzq7wUPhhMUn">
+            <div class="paper-top" data-page-node-id="tmj8lEO257WvNoShYhSn74"><span data-t="letter.date" data-page-node-id="fXHYUgp5ULjMFOtv4nP4qo">Nov. 17 / 2026</span><span data-t="letter.week" data-page-node-id="minOanu5e2mGlgFZ7GfmyU">Tue.</span></div>
+            <div class="paper-rule" data-page-node-id="aAfMwlHTvNhbsKGYT3v7dB"></div>
+            <div class="paper-cat" aria-hidden="true" data-page-node-id="eHS98f1qHhPoImTnDHZm5x">
+              <svg viewBox="0 0 120 120" width="92" height="92" fill="none" stroke="#7a5b52" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="TRHBMjgxyPl4Tw25JpE3Lh">
+                <path d="M34 44c0-14 12-24 26-24s26 10 26 24v18c0 20-12 32-26 32S34 82 34 62V44Z" data-page-node-id="FFQmeEfVclo9MgBiYHOirv"/>
+                <path d="M43 26l-3-14 13 9M77 26l3-14-13 9" data-page-node-id="rs3vK27IAtsDhgakHPppH3"/>
+                <path d="M48 47c2-3 6-3 8 0M64 47c2-3 6-3 8 0" data-page-node-id="AbFd0dnTpQowY8wh27rnXW"/>
+                <circle cx="52" cy="49" r="1.6" fill="#7a5b52" stroke="none" data-page-node-id="vVVrVT47oXSycASof9WaJW"/><circle cx="68" cy="49" r="1.6" fill="#7a5b52" stroke="none" data-page-node-id="v0Ld6mrrqQs1x9WKXj7cq9"/>
+                <path d="M55 60c3 3 7 3 10 0M60 63v4M52 70c5 5 11 5 16 0" data-page-node-id="BXSaG8sumR5sA85ff2MIub"/>
+                <path d="M34 58c-10 2-14 10-10 18 3 6 9 6 12 2M86 58c10 2 14 10 10 18-3 6-9 6-12 2" data-page-node-id="CnIe0qWnRaykbijWo4N5WE"/>
+              </svg>
+            </div>
+            <div class="paper-side left" data-t="letter.sideL" data-page-node-id="tdj6ZyopEUMxeWA3rmCjNE">BIRTHDAY</div>
+            <div class="paper-side right" data-t="letter.sideR" data-page-node-id="U2oR3X91eD0VjrGUX0gizT">WISH</div>
+            <div class="paper-rule" data-page-node-id="kseH6FElt4XbMYo5XZj6Wv"></div>
+            <h2 class="paper-h" data-page-node-id="i6MRnjs6TFI2Co6AtMQfOr"><span data-t="letter.heading" data-page-node-id="uPpaaIQpXtL7veEDaD1M4t">生日快乐呀，</span><br data-page-node-id="pc9Z8w08Pn9CGEzCo1iCWz"><em data-t="letter.headingEm" data-page-node-id="vLmAB8XLnRXpcmSCdqbeki">我的好朋友</em></h2>
+            <div class="paper-lines" data-lines="letter.lines" data-page-node-id="LtGb4ZtAypNRjmsMarUkZ5"></div>
+            <div class="paper-sign" data-page-node-id="EpxiCBSWR0cdMHtZsTYUgs"><span data-t="letter.sign" data-page-node-id="vCh80sJBi0gQdm9pwEjsBC">永远站在你这边的人</span><br data-page-node-id="2w82QhilluriO4Oe9w7KHI"><span data-t="letter.signDate" data-page-node-id="igRrIRogrmX1mEeQUpGdkA">2026.11.15</span></div>
+            <div class="paper-star" data-page-node-id="4OMK0dqTRFHfwUdKAVADMI">✦ ✧ ✦</div>
+          </div>
+        </div>
+        <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="打开这封信" data-page-node-id="Ex7Lt3qDqKb2aZZ7wjdnks">
+          <div class="env-back" data-page-node-id="FGNNBqmMV8viGB4y5MqSRM"></div>
+          <div class="env-pocket" data-page-node-id="btqGiWgnxnlEKXkHOM9Czz"></div>
+          <div class="env-flap" id="envFlap" data-page-node-id="oXc7bME1gIX8fdcpDSnZM6"></div>
+          <div class="wax" id="wax" data-page-node-id="8AoAEogMkazFHadB8sM7nv"><span data-page-node-id="HEdjatp0IfcUfxmsdCtZsf">✦</span></div>
+          <div class="env-name" data-t="letter.envName" data-page-node-id="OxAlecrJOqUGdPSW8bv3GZ">tiny type</div>
+          <div class="env-foot" data-t="letter.envFoot" data-page-node-id="bVQIMUm4qwPd4cPSsdOLtW">I was enchanted to meet you</div>
+        </div>
+      </div>
+      <p class="open-hint" id="openHint" data-t="letter.openHint" data-page-node-id="DUthAjvPnVin3zuanOz05n">✦ 轻点信封，拆开这份祝福</p>
+      <button class="replay" id="replayBtn" type="button" data-t="letter.replay" data-page-node-id="zfXva99D7tEBlkY9Sosnep">再看一次星光</button>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

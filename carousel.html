@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html data-page-node-id="PT0OYTJnaKQJM33pzxWHYf" lang="zh-CN"><head data-page-node-id="NC9Uef75vRegwVdpoY1nvP">
+<meta data-page-node-id="AkT81BXpxRFuz5G8HmXszF" charset="utf-8">
+<meta data-page-node-id="h70Ly70DkCvZYrNyXZeMmo" name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta data-page-node-id="qpAXz7IdzsWGrNZtcIos6H" name="theme-color" content="#21182f">
+<title data-page-node-id="6ec7vHVwLgvdIVJ4yWAgvJ" data-pnid-children="jnIEm1h2te1noGnceQBQfx">旋转木马相片灯 · Carousel Lamp</title>
+<link data-page-node-id="WLkuMtFzCQyXmj74VYCf4Y" rel="icon" href="carousel-assets/favicon.svg">
+<link data-page-node-id="1vl8WQPFbO9ugU4b7HhvkD" rel="stylesheet" href="carousel-app.css">
+<style data-page-node-id="G3RrDyL9HG4COEKb98dlVF" data-pnid-children="i8FFi5kk2Hy5JpNbHyEb7s" style="background-color:#000000">
+[hidden]{display:none!important}
+/* font: original LXGW WenKai Lite subset */
+@font-face{font-family:WenKai;src:url('carousel-assets/fonts/lxgwwenkailite-regular-subset-100.woff2') format('woff2');font-display:swap}
+/* ===== deep starry night: the whole site shares one black sky ===== */
+html,body{background:#03030a}
+.workshop,.workshop.night{
+  background:
+    radial-gradient(ellipse at 50% 44%,rgba(122,86,170,.20),transparent 60%),
+    radial-gradient(ellipse at 18% 76%,rgba(70,96,170,.14),transparent 42%),
+    radial-gradient(ellipse at 84% 22%,rgba(150,70,150,.12),transparent 40%),
+    #03030a!important;
+  color:#efe7f2!important;
+}
+.workshop::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.9;
+  background-image:
+    radial-gradient(circle at 8% 12%,#fff 0 1px,transparent 1.6px),
+    radial-gradient(circle at 27% 33%,#fff 0 .8px,transparent 1.4px),
+    radial-gradient(circle at 44% 18%,#eaf1ff 0 1px,transparent 1.6px),
+    radial-gradient(circle at 63% 41%,#fff 0 .7px,transparent 1.3px),
+    radial-gradient(circle at 82% 9%,#fff 0 1px,transparent 1.6px),
+    radial-gradient(circle at 94% 55%,#dfe9ff 0 .8px,transparent 1.4px),
+    radial-gradient(circle at 15% 72%,#fff 0 .9px,transparent 1.5px),
+    radial-gradient(circle at 52% 84%,#fff 0 1px,transparent 1.6px),
+    radial-gradient(circle at 76% 76%,#e6eeff 0 .8px,transparent 1.4px),
+    radial-gradient(circle at 35% 57%,#fff 0 .7px,transparent 1.3px);
+  background-size:250px 290px;animation:starTwinkle 5s alternate infinite;
+}
+.workshop::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.45;background-image:radial-gradient(circle,#fff 0 .7px,transparent 1.2px);background-size:96px 104px;transform:translate(28px,40px)}
+@keyframes starTwinkle{to{opacity:.45}}
+.workshop>.scene{z-index:1}
+.workshop>.bottom,.workshop>.ribbon-title,.workshop>.scene-tip{z-index:3}
+.workshop>.bottom{bottom:max(46px,env(safe-area-inset-bottom))}
+.workshop .creator-credit{font-size:10px;line-height:1.3;gap:0}
+.workshop .creator-credit span{display:block}
+/* give the lamp the full stage on phones; controls sit clear at the bottom */
+@media (max-width:700px){
+  .workshop>.scene,.focused .scene{inset:60px 0 150px}
+  .workshop>.scene-tip{bottom:132px;font-size:11px}
+  .creator-credit{font-size:10px;line-height:1.35}
+}
+.workshop .creator-credit,.workshop .creator-credit a{color:#bfb2c9!important}
+.workshop .scene-tip{color:#cfc2dc!important}
+/* original credit bar sits above the return button */
+.back-link{position:fixed;z-index:50;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);border:1px solid #ffffff66;border-radius:999px;background:#21182fcc;color:#fff2df;padding:8px 18px;font:13px/1.4 -apple-system,'PingFang SC',sans-serif;cursor:pointer;backdrop-filter:blur(10px)}
+.back-link:hover{background:#3a2b4ddd}
+body{overscroll-behavior:none}
+.workshop .bottom{padding-bottom:64px}
+</style>
+</head>
+<body data-page-node-id="YCknaDRFxDkNyMerc5pSlZ">
+<main data-page-node-id="FxVds4MyWe1RHFh8d4cgZn" class="workshop" id="workshop" style="background-color:#0D0D0D">
+  <div data-page-node-id="skyStars" class="star-layer" aria-hidden="true"></div>
+  <h1 data-page-node-id="zOsoRx5u1PH96EYn5CJoab" class="ribbon-title" aria-label="Happy birthday">
+    <img data-page-node-id="ymzUhOv8XH1UHynW9oKoK1" src="carousel-assets/happy-birthday-title.png" alt="Happy birthday" width="435" height="477" draggable="false">
+    <span data-page-node-id="UZtkXWMdCPnBrJHxxe23pW" class="title-sparkles" aria-hidden="true"><i data-page-node-id="yxABmBQdP6nSayK9q47hgz"></i><i data-page-node-id="XOCCIB0dBEGQsOnS55SBx6"></i><i data-page-node-id="7C7PShmWrhpxco5udgFVHL"></i><i data-page-node-id="1FGtPSLbShKFdCGyEseKCm"></i><i data-page-node-id="mvnR7kWH3s816Q95EqIySE"></i><i data-page-node-id="otYtS24H0fw14FUpGRqiNi"></i><i data-page-node-id="rvrWhALVqKput2XBE2HkbZ"></i><i data-page-node-id="UndMwjgiDoDNxHOB4br0Or"></i></span>
+  </h1>
+  
+  <div data-page-node-id="fSFedqDQQpGcHGt8DsmG7t" id="host" class="scene" aria-label="可拖动旋转的三维相片旋转木马灯"></div>
+  <p data-page-node-id="NBp912SyHj7RpriXWlh6ai" class="scene-tip">拖动旋转 · 点相框放照片 · 长按拖动可交换位置</p>
+  <output data-page-node-id="hBnF9rN0Vavuotk7kipp5W" class="loading" id="loading">正在点亮你的旋转木马…</output>
+
+  <div data-page-node-id="YywM5FmKfVkrHHLoRVkMom" class="focus-bar" id="focusBar" hidden="">
+    <button data-page-node-id="SWG7tmiMct3LekoAjyRg8e" type="button" id="prevBtn" aria-label="上一张相片">‹</button>
+    <span data-page-node-id="d30H1kgTmZJJ5cCeeI4zpP" id="focusLabel">相片 01 / 16</span>
+    <button data-page-node-id="C6EsuwWFE1gITXzpTIUwCC" type="button" id="nextBtn" aria-label="下一张相片">›</button>
+    <button data-page-node-id="1LLiUdR6H48oisJVOELo4s" type="button" id="allBtn">整盏灯</button>
+  </div>
+  <div data-page-node-id="9CYIrlTFxp6NpTf0SdtDnD" class="photo-actions" id="photoActions" hidden="">
+    <button data-page-node-id="wRGCeR1WHhj9nWytbHHNx4" type="button" class="act-edit">放入 / 更换相片</button>
+    <button data-page-node-id="P4lDpr12RKXronhIOAj3iv" type="button" class="act-remove">取下相片</button>
+  </div>
+
+  <footer data-page-node-id="vU0h0MiYjH0VRhGbF9qWG6" class="bottom">
+    <div data-page-node-id="OiqbsVZMNp2TOo999YwJks" class="toolbar">
+      <button data-page-node-id="YksEgzlV5KCs5DpH88GBSS" type="button" class="upload" id="uploadBtn">＋ 挂相片</button>
+      <button data-page-node-id="ksNsdWaGRvuB7AcI1g9AeO" type="button" class="wind" id="windBtn">起风</button>
+      <button data-page-node-id="LF9S4EjTGQ9vJUvrBPzlIW" type="button" class="spin" id="spinBtn" aria-pressed="false">旋转</button>
+      <button data-page-node-id="Bm3jOPUAYvdbOQq5ZTQM8Q" type="button" class="lamp" id="lampBtn" aria-pressed="false">开灯</button>
+      <button data-page-node-id="WVvlFw22INPTe8kUZHi0XF" type="button" class="reset" id="resetBtn" aria-label="重置视角">↺</button>
+    </div>
+    <p data-page-node-id="LbzS7AXdLuDznYWCSiWTSx" class="save-status" id="saveStatus" hidden=""></p>
+    <p data-page-node-id="zBFa9Pz2jD5th8bmIduhCr" class="creator-credit" lang="zh-CN">
+      
+      
+    </p>
+  </footer>
+
+  <!-- upload menu -->
+  <div data-page-node-id="2VFj1rXDseMEBCghSgVgBl" class="dialog-mask" id="uploadMenu" hidden="">
+    <div data-page-node-id="l5LTBoYpP1PcLm0GqE9n1w" class="dialog-box upload-menu" role="dialog" aria-modal="true" aria-label="挂上你的相片">
+      <h2 data-page-node-id="macBorVuBwSnkduzP2bAzG">挂上你的相片</h2>
+      <p data-page-node-id="Pcm5KhC7tGP9N8KIpmBKrt" class="desc">还有 <b data-page-node-id="HWsS6EKWyRNkCFwOgcpigK" id="emptyCount">16</b> 个空相框。批量上传会随机填入空位，已有照片保持原位。</p>
+      <button data-page-node-id="nENE7qyZLTrRj9kWKW4ve5" type="button" class="menu-single" id="menuSingle">选位置挂一张</button>
+      <button data-page-node-id="UmZdKN7YHGBgKMpGBSi0m8" type="button" class="batch-upload" id="menuBatch">批量上传</button>
+      <button type="button" id="menuExport">导出照片包</button>
+      <button type="button" id="menuImport">从照片包导入</button>
+      <p data-page-node-id="0pEf0nfgVQ8VPmgyPGrOMy" class="batch-help">JPG、PNG、WebP、HEIC · 单张最大 50 MB · 最多选择剩余空位数量<br>换设备时：先导出照片包，发到另一台设备再导入。</p>
+      <p data-page-node-id="f9PMyrPGo1hJobVIYLW5I7" class="batch-progress" id="batchProgress" hidden=""></p>
+      <button data-page-node-id="876jTmnUNsZAms4KIfpMNQ" type="button" class="dialog-close" data-close="uploadMenu">关闭</button>
+      <input data-page-node-id="ZMZEVozkkaVhFmnDMz1V2r" type="file" id="batchInput" multiple="" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif" hidden="">
+      <input type="file" id="packageInput" accept="application/json,.json" hidden="">
+    </div>
+  </div>
+
+  <!-- position picker -->
+  <aside data-page-node-id="277ctYXaxzieC67QCik2pJ" class="position-picker" id="positionPicker" hidden="" aria-label="选择相片位置">
+    <div data-page-node-id="8dQ5sNPDVStCvn0A6cBSfN" class="picker-heading"><div data-page-node-id="eUMxDj31W1rfuCGbVCvRc9"><small data-page-node-id="lAIrMlitGwWHRBypFqGQBM">第一步</small><h2 data-page-node-id="U2APIPfG1abqgqU495A2Hz">给相片选个位置</h2></div>
+      <button data-page-node-id="dYGUuC4DLyXURKvE8F53Q2" type="button" class="ghost" id="pickerClose">✕</button></div>
+    <p data-page-node-id="41F3XnM3bDXVEDKBCQC51M">点一个位置，然后放入相片。</p>
+    <div data-page-node-id="8WZ9FDIBYiWBej9qWPLozW" class="slots" id="slots"></div>
+  </aside>
+
+  <!-- crop editor -->
+  <div data-page-node-id="1cCSj5GXhcvblyu0bYG3XV" class="dialog-mask" id="editor" hidden="">
+    <div data-page-node-id="3ZFN4IGAZEQG0iHKfDv6J6" class="dialog-box photo-editor" role="dialog" aria-modal="true" aria-label="调整相片">
+      <h2 data-page-node-id="sSI2lR3wAFJ5cpawbtuXpz" data-slot="dialog-title">调整相片</h2>
+      <p data-page-node-id="Y8QER6I3R4p8gXsBluoBE6" data-slot="dialog-description">拖动滑杆调整大小与位置。</p>
+      <div data-page-node-id="qAGU1IMjB26Ut6mE8X5bu4" class="editor-layout">
+        <div data-page-node-id="Cc5JlF1eRoESlDfG7KrEpc" class="crop-stage"><canvas data-page-node-id="pCY3CclWyDv7LXAaJqxmwm" id="cropCanvas"></canvas></div>
+        <div data-page-node-id="Kmlp8xqKGDOtTJPAcGkM6D" class="crop-controls">
+          <label data-page-node-id="GATdAsUrtw7kVB4jZ1QUlS">大小 <input data-page-node-id="kGmplWpmEDgqNMrWT9Uhj8" type="range" id="zoom" min="1" max="3" step="0.01" value="1"></label>
+          <label data-page-node-id="zuxgEDYFFQjfMGUSP22JEF">左右 <input data-page-node-id="v0DxHFCCgDAsm9R6pevof2" type="range" id="posX" min="-1" max="1" step="0.01" value="0"></label>
+          <label data-page-node-id="KYD8nxNEggNrqnzv2L9Lp5">上下 <input data-page-node-id="5tH93AcEir6IPnsFEJpqzV" type="range" id="posY" min="-1" max="1" step="0.01" value="0"></label>
+        </div>
+      </div>
+      <p data-page-node-id="6SZ2tltKUWZQ6s6VG4Msg1" class="editor-error" id="editorError" hidden=""></p>
+      <div data-page-node-id="ymGMsVVuQAXDnVJW8luWPB" class="editor-footer">
+        <button data-page-node-id="DYhSGC51aU0A2PlrpY0Fzr" type="button" class="ghost" data-close="editor">取消</button>
+        <button data-page-node-id="CiW8xYKuiH0zKCsnPzTAJj" type="button" class="primary" id="editorSave">挂上去</button>
+      </div>
+      <input data-page-node-id="mql9HmGMLCFF0nUSdHEeL4" type="file" id="editorInput" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif" hidden="">
+    </div>
+  </div>
+
+  <div data-page-node-id="HFuWmEc6kgI7kLWHzP4mhd" class="toast" id="toast"></div>
+  <img data-page-node-id="Nmrr0l4CS2fDJeb3vsvBeI" class="photo-drag-ghost" id="dragGhost" hidden="">
+  <button data-page-node-id="RJyUkl5nHH3RFvo9PgdMXg" type="button" class="back-link" id="backLink">← 回到生日祝福</button>
+</main>
+
+<script data-page-node-id="Q4ga2rfWi3EoFtqLI0LAZ3" data-pnid-children="hZmq5JkjwJzQ3grwviCc9c" type="module">
+import { createCarousel, PHOTO_COUNT, initialCrop, loadPhoto, drawCrop,
+  readSavedPhotos, savePhotosLocally, readSavedView, saveView, ChimeAudio,
+  convertHeic, isHeicFile } from './carousel-lamp.js';
+
+const $ = (s) => document.querySelector(s);
+const host = $('#host'), loading = $('#loading'), toastEl = $('#toast');
+const audio = new ChimeAudio();
+let api = null, ready = false, night = true, spinning = false, selected = -1;
+let choosing = false, busy = false, draft = null;
+const urls = new Set();
+const memories = Array.from({length: PHOTO_COUNT}, () => ({source:'',blob:null,preview:'',crop:{...initialCrop},custom:false,empty:true}));
+let swapHandler = async () => {};
+let viewSaveFlag = true;
+const FALLBACK_KEY = 'carousel-lamp-photos-fallback-v1';
+
+function blobFromDataUrl(dataUrl){
+  if(typeof dataUrl !== 'string' || !dataUrl.startsWith('data:')) return null;
+  try{
+    const [head, body] = dataUrl.split(',');
+    const mime = /^data:([^;]+)/.exec(head)?.[1] || 'image/jpeg';
+    const bin = atob(body);
+    const bytes = new Uint8Array(bin.length);
+    for(let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+    return new Blob([bytes], {type:mime});
+  }catch{ return null; }
+}
+function blobOf(memory){
+  return memory?.blob || blobFromDataUrl(memory?.preview) || blobFromDataUrl(memory?.source) || null;
+}
+function readFallback(){
+  try{
+    const raw = localStorage.getItem(FALLBACK_KEY);
+    const list = raw ? JSON.parse(raw) : [];
+    return Array.isArray(list) ? list : [];
+  }catch{ return []; }
+}
+function writeFallback(records){
+  try{
+    const map = new Map(readFallback().map(p => [p.slot, p]));
+    for(const p of records){
+      if(!Number.isInteger(p.slot) || p.slot < 0 || p.slot >= PHOTO_COUNT) continue;
+      map.set(p.slot, {
+        slot: p.slot,
+        preview: p.preview || '',
+        crop: p.crop || {...initialCrop},
+        empty: !!p.empty
+      });
+    }
+    localStorage.setItem(FALLBACK_KEY, JSON.stringify([...map.values()]));
+  }catch{ /* localStorage may be unavailable; IndexedDB is still primary */ }
+}
+
+function toast(msg){ toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>toastEl.classList.remove('show'),4800); }
+function setNight(on){ night = on; $('#workshop').classList.toggle('night',on); $('#lampBtn').setAttribute('aria-pressed',String(on)); $('#lampBtn').textContent = on?'关灯':'开灯'; }
+function setSpinning(on){ spinning = on; $('#spinBtn').setAttribute('aria-pressed',String(on)); $('#spinBtn').textContent = on?'暂停':'旋转'; }
+function renderSelection(){
+  $('#focusBar').hidden = selected < 0;
+  $('#photoActions').hidden = selected < 0 || choosing;
+  if (selected>=0) $('#focusLabel').textContent = `相片 ${String(selected+1).padStart(2,'0')} / ${PHOTO_COUNT}`;
+  $('#workshop').classList.toggle('focused', selected>=0);
+}
+function renderSlots(){
+  const box = $('#slots'); box.innerHTML='';
+  memories.forEach((m,i)=>{
+    const b=document.createElement('button'); b.type='button'; b.className='slot'+(selected===i?' chosen':'');
+    b.setAttribute('aria-pressed',String(selected===i));
+    b.setAttribute('aria-label',`选择 ${i+1} 号位置${m.custom?'，已有相片':m.empty?'，空位':''}`);
+    if(m.preview){ const im=document.createElement('img'); im.src=m.preview; im.alt=''; b.appendChild(im); }
+    const sp=document.createElement('span'); sp.textContent=String(i+1).padStart(2,'0'); b.appendChild(sp);
+    b.onclick=()=>{ selected=i; api?.selectMode(false); choosing=false; $('#positionPicker').hidden=true; api?.focus(i); renderSelection(); };
+    box.appendChild(b);
+  });
+}
+async function commitPhotos(fn){
+  const records = await fn();
+  try {
+    await savePhotosLocally(records);
+    writeFallback(records);
+    $('#saveStatus').hidden=true;
+  }
+  catch(e){ $('#saveStatus').hidden=false; $('#saveStatus').dataset.state='error'; $('#saveStatus').textContent=e.message||'保存未完成，请重试'; throw e; }
+}
+async function restore(){
+  let stored = [];
+  try { stored = await readSavedPhotos(); } catch(e){ /* fall through to localStorage */ }
+  const map = new Map(readFallback().map(p => [p.slot, p]));
+  for(const p of stored) if(Number.isInteger(p.slot)) map.set(p.slot, p);
+  for(const p of map.values()){
+    if(!Number.isInteger(p.slot)||p.slot<0||p.slot>=PHOTO_COUNT) continue;
+    if(!p.empty && !(p.source instanceof Blob) && !p.preview) continue;
+    const blob = p.empty ? null : (p.source instanceof Blob ? p.source : blobFromDataUrl(p.preview));
+    const source = p.empty ? '' : (blob ? URL.createObjectURL(blob) : p.preview);
+    if(source && source.startsWith('blob:')) urls.add(source);
+    memories[p.slot] = {
+      source,
+      blob,
+      preview: p.preview || '',
+      crop: p.crop || {...initialCrop},
+      custom: !p.empty,
+      empty: !!p.empty
+    };
+    await api.setPhoto(p.slot, p.empty ? null : (p.preview || source));
+  }
+  renderSlots();
+}
+async function readFile(file){
+  if(!file) return null;
+  const heic = isHeicFile(file);
+  const okType = ['image/jpeg','image/png','image/webp'].includes(file.type.toLowerCase());
+  if(!heic && !okType && !/\.(jpe?g|png|webp)$/i.test(file.name)) throw new Error('请选择 JPG、PNG、WebP 或 HEIC 图片。');
+  if(file.size > 50*1024*1024) throw new Error('单张相片不能超过 50 MB。');
+  return heic ? await convertHeic(file, new AbortController().signal) : file;
+}
+function choose(i){
+  $('#positionPicker').hidden=true; choosing=false; api?.selectMode(false);
+  selected=i; api?.focus(i); renderSelection(); renderSlots();
+  if(memories[i].empty) openEditor();
+}
+function openEditor(){
+  if(selected<0){ toast('先选一个相框位置'); return; }
+  const m = memories[selected];
+  if(m.source){
+    loadPhoto(m.source).then(img=>{ draft={source:m.source,blob:blobOf(m),image:img,crop:{...m.crop}}; showEditor(); });
+  } else { $('#editorInput').value=''; $('#editorInput').click(); }
+}
+function showEditor(){
+  $('#editorError').hidden=true; $('#editor').hidden=false;
+  $('#zoom').value=draft.crop.zoom; $('#posX').value=draft.crop.x; $('#posY').value=draft.crop.y;
+  drawCrop($('#cropCanvas'),draft.image,draft.crop);
+}
+function closeEditor(){ $('#editor').hidden=true; draft=null; }
+function closeAll(){ $('#uploadMenu').hidden=true; $('#editor').hidden=true; $('#positionPicker').hidden=true; }
+
+// ---- boot ----
+(async function(){
+  try {
+    try { const saved = readSavedView(); if(saved){ setNight(saved.night); setSpinning(saved.spinning); } } catch(e){ /* IDB blocked: keep defaults */ }
+    api = createCarousel(host,
+      (i)=>{ selected=i; if(i>=0) choosing=false; renderSelection(); },
+      (msg)=>toast(msg),
+      (from,to)=>swapHandler(from,to),
+      (ok)=>{ viewSaveFlag=ok; });
+    await api.ready;
+    api.light(night); setNight(night); setSpinning(spinning);
+    try { await restore(); } catch(e){ /* IDB blocked or no saved photos: scene still works */ }
+    ready=true; loading.hidden=true;
+    // force a clean overview state regardless of any early pointer/auto-focus events
+    api.reset(); selected=-1; choosing=false;
+    $('#positionPicker').hidden=true; $('#uploadMenu').hidden=true;
+    renderSelection();
+    if(spinning) api.rotate(true);
+  } catch(e){ loading.textContent = '3D 场景加载失败：'+(e.message||'请刷新重试'); }
+})();
+
+// ---- toolbar ----
+$('#uploadBtn').onclick=()=>{ $('#emptyCount').textContent=String(memories.filter(m=>m.empty).length); $('#batchProgress').hidden=true; $('#uploadMenu').hidden=false; audio.play('select'); };
+$('#menuSingle').onclick=()=>{ $('#uploadMenu').hidden=true; api?.reset(); choosing=true; selected=-1; api?.selectMode(true); $('#positionPicker').hidden=false; renderSlots(); };
+$('#pickerClose').onclick=()=>{ choosing=false; api?.selectMode(false); $('#positionPicker').hidden=true; };
+$('#windBtn').onclick=()=>{ api?.wind(); audio.play('wind'); };
+$('#spinBtn').onclick=()=>{ const on=!spinning; api?.rotate(on); setSpinning(on); audio.play('select'); };
+$('#lampBtn').onclick=()=>{ const on=!night; api?.light(on); setNight(on); audio.play('light'); };
+$('#resetBtn').onclick=()=>{ api?.reset(); audio.play('select'); };
+$('#prevBtn').onclick=()=>choose((selected+PHOTO_COUNT-1)%PHOTO_COUNT);
+$('#nextBtn').onclick=()=>choose((selected+1)%PHOTO_COUNT);
+$('#allBtn').onclick=()=>{ api?.reset(); selected=-1; renderSelection(); audio.play('select'); };
+$('#photoActions').querySelector('.act-edit').onclick=openEditor;
+$('#photoActions').querySelector('.act-remove').onclick=async()=>{
+  if(selected<0||busy) return;
+  const slot=selected;
+  try{ await commitPhotos(async()=>[{slot,source:null,preview:'',crop:{...initialCrop},empty:true}]); await api.setPhoto(slot,null); }
+  catch(e){ toast(e.message); return; }
+  memories[slot]={source:'',blob:null,preview:'',crop:{...initialCrop},custom:false,empty:true};
+  audio.play('hang'); toast('相片已取下'); renderSlots(); renderSelection();
+};
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{ const id=b.getAttribute('data-close'); const el=document.getElementById(id); if(el) el.hidden=true; });
+$('#backLink').onclick=()=>{ location.href='index.html'; };
+
+// ---- crop editor ----
+$('#editorInput').onchange=async(e)=>{
+  const f=e.target.files?.[0]; e.target.value='';
+  if(!f) return;
+  try{
+    const blob=await readFile(f); const src=URL.createObjectURL(blob); urls.add(src);
+    draft={source:src,blob,image:await loadPhoto(src),crop:{...initialCrop}};
+    showEditor();
+  }catch(err){ toast(err.message); }
+};
+['zoom','posX','posY'].forEach(id=>$('#'+id).oninput=()=>{
+  if(!draft) return;
+  draft.crop={zoom:+$('#zoom').value,x:+$('#posX').value,y:+$('#posY').value};
+  drawCrop($('#cropCanvas'),draft.image,draft.crop);
+});
+$('#editorSave').onclick=async()=>{
+  if(!draft||selected<0||busy) return;
+  busy=true;
+  try{
+    drawCrop($('#cropCanvas'),draft.image,draft.crop);
+    const cropped=$('#cropCanvas').toDataURL('image/jpeg',0.92);
+    const original=draft.blob || blobFromDataUrl(memories[selected]?.preview) || blobFromDataUrl(draft.source);
+    if(!original) throw new Error('找不到原始相片数据，请重新选择这张相片。');
+    const slot=selected, crop={...draft.crop};
+    await commitPhotos(async()=>[{slot,source:original,preview:cropped,crop,empty:false}]);
+    await api.setPhoto(slot,cropped);
+    memories[slot]={source:draft.source,blob:original,preview:cropped,crop,custom:true,empty:false};
+    audio.play('hang'); toast(`相片已挂在 ${String(slot+1).padStart(2,'0')} 号位置`);
+    closeEditor(); renderSlots(); renderSelection();
+  }catch(err){ $('#editorError').hidden=false; $('#editorError').textContent=err.message; }
+  finally{ busy=false; }
+};
+
+// ---- photo package: free cross-device transfer ----
+function exportPhotoPackage(){
+  const photos = memories.map((m,i)=>({
+    slot: i,
+    preview: m.preview || '',
+    crop: {...m.crop},
+    empty: !!m.empty
+  }));
+  if(!photos.some(p=>!p.empty && p.preview)){ toast('还没有相片可导出'); return; }
+  const pack = {
+    app: 'snowbday-h5',
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    photos
+  };
+  const blob = new Blob([JSON.stringify(pack)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'snowbday-photos.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  toast('照片包已导出，发到另一台设备导入即可');
+}
+async function importPhotoPackage(file){
+  const text = await file.text();
+  const pack = JSON.parse(text);
+  const list = Array.isArray(pack?.photos) ? pack.photos : [];
+  if(!list.length) throw new Error('照片包里没有相片');
+  const records = [];
+  for(const p of list){
+    if(!Number.isInteger(p.slot) || p.slot<0 || p.slot>=PHOTO_COUNT) continue;
+    if(p.empty){ records.push({slot:p.slot,source:null,preview:'',crop:{...initialCrop},empty:true}); continue; }
+    if(!p.preview) continue;
+    const blob = blobFromDataUrl(p.preview);
+    if(!blob) continue;
+    records.push({slot:p.slot,source:blob,preview:p.preview,crop:p.crop||{...initialCrop},empty:false});
+  }
+  if(!records.length) throw new Error('照片包格式不对，请用本网站导出的照片包');
+  await commitPhotos(async()=>records);
+  for(const r of records){
+    if(r.empty){
+      memories[r.slot] = {source:'',blob:null,preview:'',crop:{...initialCrop},custom:false,empty:true};
+      await api.setPhoto(r.slot, null);
+      continue;
+    }
+    const source = URL.createObjectURL(r.source); urls.add(source);
+    memories[r.slot] = {source,blob:r.source,preview:r.preview,crop:r.crop,custom:true,empty:false};
+    await api.setPhoto(r.slot, r.preview);
+  }
+  renderSlots(); renderSelection();
+  toast(`已导入 ${records.filter(r=>!r.empty).length} 张相片`);
+}
+$('#menuExport').onclick=()=>{ exportPhotoPackage(); };
+$('#menuImport').onclick=()=>$('#packageInput').click();
+$('#packageInput').onchange=async(e)=>{
+  const f=e.target.files?.[0]; e.target.value='';
+  if(!f || busy) return;
+  busy=true;
+  try{ await importPhotoPackage(f); $('#uploadMenu').hidden=true; }
+  catch(err){ toast(err.message||'照片包导入失败'); }
+  finally{ busy=false; }
+};
+
+// ---- batch upload ----
+$('#menuBatch').onclick=()=>$('#batchInput').click();
+$('#batchInput').onchange=async(e)=>{
+  const files=Array.from(e.target.files||[]); e.target.value='';
+  if(!files.length||busy) return;
+  const slots=memories.map((m,i)=>m.empty?i:-1).filter(i=>i>=0);
+  if(!slots.length){ toast('相框已满，点相框更换'); return; }
+  if(files.length>slots.length){ toast(`最多还能挂 ${slots.length} 张`); return; }
+  busy=true; const bar=$('#batchProgress'); bar.hidden=false; const prepared=[];
+  try{
+    const shuffled=[...slots].sort(()=>Math.random()-0.5);
+    for(let i=0;i<files.length;i++){
+      bar.textContent=`正在准备 ${i+1} / ${files.length} 张…`;
+      const blob=await readFile(files[i]); const source=URL.createObjectURL(blob); urls.add(source);
+      try{
+        const image=await loadPhoto(source); const c=document.createElement('canvas');
+        drawCrop(c,image,initialCrop);
+        prepared.push({slot:shuffled[i],blob,memory:{source,blob,preview:c.toDataURL('image/jpeg',0.92),crop:{...initialCrop},custom:true,empty:false}});
+      }catch(err){ urls.delete(source); URL.revokeObjectURL(source); throw err; }
+    }
+    bar.textContent='正在保存…';
+    await commitPhotos(async()=>prepared.map(({slot,memory,blob})=>({slot,source:blob,preview:memory.preview,crop:memory.crop,empty:false})));
+    prepared.forEach(({slot,memory})=>{ memories[slot]=memory; api.setPhoto(slot,memory.preview); });
+    api.reset(); $('#uploadMenu').hidden=true;
+    audio.play('hang'); toast(`已挂上 ${prepared.length} 张相片`); renderSlots();
+  }catch(err){ toast(err.message); }
+  finally{ busy=false; bar.hidden=true; }
+};
+
+// ---- long-press photo swap (original behavior) ----
+let pressTimer=null, dragFrom=-1;
+host.addEventListener('pointerdown',(e)=>{
+  const t=e.target; if(!(t instanceof HTMLCanvasElement)) return;
+  pressTimer=setTimeout(()=>{
+    const rect=host.getBoundingClientRect();
+    const x=(e.clientX-rect.left)/rect.width*2-1, y=-(e.clientY-rect.top)/rect.height*2+1;
+    // ask scene which slot is under pointer via select callback on tap; use current selected as fallback
+    dragFrom=selected>=0?selected:-1;
+    if(dragFrom<0||memories[dragFrom].empty) return;
+    const g=$('#dragGhost'); g.src=memories[dragFrom].preview; g.hidden=false;
+    g.style.left=e.clientX+'px'; g.style.top=e.clientY+'px';
+  },500);
+});
+host.addEventListener('pointermove',(e)=>{ const g=$('#dragGhost'); if(!g.hidden){ g.style.left=e.clientX+'px'; g.style.top=e.clientY+'px'; } });
+window.addEventListener('pointerup',async(e)=>{
+  clearTimeout(pressTimer);
+  const g=$('#dragGhost'); if(g.hidden) return;
+  g.hidden=true;
+  if(dragFrom<0) return;
+  const target=document.elementFromPoint(e.clientX,e.clientY);
+  if(target===host||host.contains(target)){
+    // scene reports hovered slot through selection on tap; swap with next selected if available
+    const to=selected>=0&&selected!==dragFrom?selected:(dragFrom+1)%PHOTO_COUNT;
+    if(to!==dragFrom){
+      try{
+        const a=memories[dragFrom],b=memories[to];
+        await commitPhotos(async()=>{
+          const blobs=[a,b].map(m=>m.empty?null:blobOf(m));
+          if(blobs.some((blob,i)=>![a,b][i].empty && !blob)) throw new Error('找不到原始相片数据，请重新挂上这张相片。');
+          return [{slot:dragFrom,source:blobs[1],preview:b.preview,crop:b.crop,empty:b.empty},
+                  {slot:to,source:blobs[0],preview:a.preview,crop:a.crop,empty:a.empty}];
+        });
+        api.swapPhotos(dragFrom,to);
+        memories[dragFrom]=b; memories[to]=a;
+        toast(`${dragFrom+1} 与 ${to+1} 号相片已交换`); renderSlots();
+      }catch(err){ toast(err.message); }
+    }
+  }
+  dragFrom=-1;
+});
+window.addEventListener('beforeunload',()=>{ urls.forEach(u=>URL.revokeObjectURL(u)); audio.dispose(); api?.dispose(); });
+</script>
+
+
+</body></html>
